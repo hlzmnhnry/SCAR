@@ -1,0 +1,26 @@
+{
+    "save_plots": true,
+    "show_plots": false,
+    "export_results": true,
+    "output_prefix": "ls",
+    "output_directory": "basic",
+
+    "least_squares": {
+
+        "result_input_file": {
+            "type": "load_latest_from_prefix",
+            "prefix": "full"
+        },
+
+        "parameters": {
+            "method": "trf",
+            "loss": "huber",
+            "jac": "3-point"
+        }
+    },
+
+    "dataset": {
+        "data_directory": "data/",
+        "extrinsics_calibration_file": "config/extrinsics_guess_kalibr.json"
+    }
+}

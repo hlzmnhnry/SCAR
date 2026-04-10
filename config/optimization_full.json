@@ -1,0 +1,41 @@
+{
+
+    "data_source": "optimization_result",
+    "save_plots": true,
+    "show_plots": false,
+    "export_results": true,
+    "output_prefix": "full",
+    "output_directory": "basic",
+
+    "optimization": {
+
+        "result_input_file": {
+            "type": "load_latest_from_prefix",
+            "prefix": "calibration"
+        },
+
+        "kernel": "Huber",
+        "kernel_param": 3.0,
+        "reprojection_noise": [1.0, 1.0],
+
+        "priors_on_camera_poses": true,
+        "camera_pose_orientation_noise_degree": [0.05, 0.05, 0.05],
+        "camera_pose_position_noise": [0.01, 0.01, 0.01],
+        
+        "priors_on_landmarks": true,
+        "landmark_position_noise": [0.1, 0.1, 0.1],
+        
+        "prior_on_camera_calibration": true,
+        "camera_calibration_prior_noise": {
+            "fx": 0.2,
+            "fy": 0.2,
+            "cx": 0.1,
+            "cy": 0.1,
+            "k1": 0.001,
+            "k2": 0.001,
+            "p1": 1e-5,
+            "p2": 1e-5,
+            "skew": 1e-9
+        }
+    }
+}

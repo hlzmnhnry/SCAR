@@ -1,0 +1,64 @@
+Programm zur Berechnung von Quasigeoidhöhen - V1.05 (22.08.12)
+==============================================================
+
+Mit dem Programm "geoid" können Normalhöhen im DHHN92 bzw. DHHN2016 aus ellipsoidischen Höhen im ETRS89 berechnet werden. Für die gwünschten Positionen werden Höhenanomalien aus einem vorliegenden Gitter (Quasigeoidmodell) interpoliert. Es können verschiedene Versionen des Quasigeoidmodells verwendet werden (Version von 1998 Ostdeutschland, 2003, 2005, 2011 - liefern Normalöhen im DHHN92; Versionen von 2016 und 2023 liefern Normalhöhen im DHHN2016), wahlweise Modelle für Gesamtdeutschland oder eines der angebotenen Teilgebiete.
+
+Die einzugebenden Koordinaten müssen im Bezugssystem ETRS89 vorliegen.
+Die Eingabe ist in verschiedenen Koordinatenformaten dieses Bezugsystems möglich:
+- kartesische Koordinaten
+- ellipsoidische Koordinaten in Grad oder Grad, Minuten und Sekunden
+- UTM Koordinaten.
+Bei der Berechnung kann gleichzeitig eine Konvertierungen zwischen den verschiedenen Koordinatenformaten unter Beibehaltung des Bezugssystems ETRS89 (Ellipsoid GRS80) vorgenommen werden. Die Koordinateneingabe kann interaktiv (Berechnung von Einzelpunkten) oder in einer Datei erfolgen.
+
+
+Menüpunkt: Quasigeoidmodell
+---------------------------
+Vor der Berechnung von Normalhöhen muss der Dateiname des Quasigeoidmodells angegeben werden.
+
+
+Menüpunkt: Interaktive Eingabe
+------------------------------
+Der Menüpunkt "Interaktive Eingabe" dient der Berechnung von Normalhöhen H einzelner Punkte. Die Koordinaten können als
+- kartesische Koordinaten (X, Y, Z),
+- ellipsoidische Koordinaten (ellipsoidische Länge L, ellipsoidische Breite B,
+  ellipsoidische Höhe h) oder
+- UTM-Koordinaten (Nordwert N, Ostwert E, ellipsoidische Höhe h)
+angegeben werden. Die ellipsoidischen Längen und Breiten können wahlweise in Grad oder in Grad, Minuten und Sekunden eingegeben werden.
+Für die Auswahl müssen die entsprechenden Felder durch den Auswahlschalter aktiviert werden.
+Nach Bestätigung aller Eingaben durch den Knopf "Berechnen" werden die Normalhöhe H und die Höhenanomalie N, sowie die Koordinaten in den anderen Koordinatenformat berechnet.
+
+
+Menüpunkt: Dateieingabe
+----------------------
+Im Menüpunkt "Dateieingabe" werden die Namen der Ein- und Ausgabedatei sowie die entsprechenden Koordinatenformate abgefragt. Die einzelnen Angaben zu einem Punkt - Koordinaten und ggf. Punktnummer - sind durch mindestens ein Leerzeichen voneinander zu trennen. Pro Zeile ist nur ein Punkt zulässig.
+Nach Betätigung des Schalters "Punktnummer in Spalte 1" werden die Angaben der ersten Spalte der Datei als Punktnummer interpretiert. Die maximale Länge der Punktnummer ist in dem entsprechenden Feld anzugeben. Sie darf eine Länge von 30 Zeichen nicht überschreiten. Die Berechnung liefert dann die Koordinaten im gewünschten Koordinatenformat des Bezugssystems ETRS89, die Normalhöhe H und die Höhenanomalie N.
+Bei Bedarf können die ersten 64 kByte der Ein- und Ausgabedatei betrachtet werden - "Koordinatendatei Betrachten" bzw. "Ausgabedatei betrachten".
+
+Koordinatenformate für Ein- und Ausgabe im Bezugssystem ETRS89:
+---------------------------------------------------------------
+1. kartesische Koordinaten:       [Punktnummer]  X  Y  Z
+
+2. ellipsoidische Koordinaten     [Punktnummer]  B  L  h
+   in Grad - dezimal:
+
+3. ellipsoidische Koordinaten     [Punktnummer]  B  L  h
+   in Grad, Minuten, Sekunden:
+
+6. UTM - Koordinaten:             [Punktnummer]  North  East    h
+7. UTM - Koordinaten:             [Punktnummer]  East   North   h
+
+
+Haftungshinweis:
+----------------
+Das Programm wurde bei seiner Entwicklung sorgfältig geprüft. Trotzdem sind Fehler im Bearbeitungsvorgang nicht auszuschließen. Eine Haftung oder Garantie für die Aktualität, Richtigkeit und Vollständigkeit der zur Verfügung gestellten Informationen kann daher nicht übernommen werden. Das BKG übernimmt insbesondere keinerlei Haftung für eventuelle Schäden oder Konsequenzen, die durch die direkte oder indirekte Nutzung des angebotenen Programms entstehen. Des weiteren behält sich das BKG das Recht vor, Änderungen oder Ergänzungen des bereitgestellten Programms jederzeit vorzunehmen.
+
+Hinweise und Korrekturen senden Sie bitte an:
+
+Referat G3
+Bundesamt für Kartographie und Geodäsie
+Außenstelle Leipzig
+Karl-Rothe-Str. 10-14
+04105 Leipzig
+
+E-Mail:  quasigeoid@bkg.bund.de
+

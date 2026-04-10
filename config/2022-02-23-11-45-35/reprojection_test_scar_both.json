@@ -1,0 +1,22 @@
+{
+    "output_prefix": "test",
+
+    "sequence": {
+        "sequence_id": "1645614950400000_1645615150199892_10_superpoint_lightglue_test"
+    },
+
+    "dataset": {
+        "campaign": "2022-02-23-11-45-35",
+        "image_directory": "data/2022-02-23-11-45-35/images",
+        "extrinsics_calibration_file": {
+            "type": "load_latest_from_prefix",
+            "input_directory": "output/2022-02-23-11-45-35/optimization/basic",
+            "prefix": "ls"
+        },
+        "camera_calibration_file": {
+            "type": "load_latest_from_prefix",
+            "input_directory": "output/2022-02-23-11-45-35/optimization/basic",
+            "prefix": "ls"
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "least_squares": {
+        "result_input_file": {
+            "input_directory": "output/2024-01-29-12-31-01/optimization/basic"
+        }
+    },
+
+    "dataset": {
+        "campaign": "2024-01-29-12-31-01"
+    }
+}

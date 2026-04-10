@@ -1,0 +1,1 @@
+https://gdz.bkg.bund.de/index.php/default/open-data/quasigeoid-der-bundesrepublik-deutschland-quasigeoid.html

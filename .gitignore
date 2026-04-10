@@ -1,0 +1,60 @@
+# IDEs
+.vscode/
+.env
+
+# build files
+build/
+*.egg-info/
+**/__pycache__/
+
+# temp data directory
+data/temp/**
+
+# ignore results and sbatch scripts from cluster
+slurm/
+run_colmap_*.sh
+
+# output directory
+output/
+output_backup/
+
+# debug files
+test.py
+test2.py
+test3.py
+test4.py
+test5.py
+test6.py
+test.ipynb
+
+# video files
+video/
+*.mp4
+
+# drawio backup files
+**/.$*.drawio.bkp
+
+# ignore markdown lint configuration
+.markdownlint.json
+
+# generated paper images
+visualization_image_*.png
+visualization_image_*.svg
+SCAR_ABLATION_DELTAS.pdf
+SCAR_ABLATION_DELTAS.png
+SCAR_ABLATION_DELTAS.svg
+SCAR_ROBUSTNESS_framenum.png
+SCAR_ROBUSTNESS_framenum.svg
+SCAR_ROBUSTNESS_rot_trans.png
+SCAR_ROBUSTNESS_rot_trans.svg
+
+# debug scripts
+scripts/debug/*.py
+
+# datasets
+data/2022-*/
+data/2024-*/
+data/tiles/
+
+# ignore codex
+.codex

@@ -1,0 +1,14 @@
+{
+    "resume": false,
+    "resume_mode": "latest",
+
+    "manual_output_suffix": "train",
+
+    "dataset": {
+        "campaign": "2022-06-10-10-42-22",
+        "image_directory": "data/2022-06-10-10-42-22/images",
+        "start_time": 1654853384940000,
+        "end_time": 1654853584920000
+    }
+}
+

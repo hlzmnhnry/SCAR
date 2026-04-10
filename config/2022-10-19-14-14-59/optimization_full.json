@@ -1,0 +1,11 @@
+{
+    "optimization": {
+        "result_input_file": {
+            "input_directory": "output/2022-10-19-14-14-59/optimization/basic"
+        }
+    },
+
+    "dataset": {
+        "campaign": "2022-10-19-14-14-59"
+    }
+}

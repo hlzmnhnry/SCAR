@@ -1,0 +1,40 @@
+{
+    "data_source": "optimization_result",
+    "save_plots": true,
+    "show_plots": false,
+    "export_results": true,
+    "output_prefix": "calibration",
+    "output_directory": "basic",
+
+    "optimization": {
+
+        "result_input_file": {
+            "type": "load_latest_from_prefix",
+            "prefix": "landmark"
+        },
+
+        "kernel": "Huber",
+        "kernel_param": 3.0,
+        "reprojection_noise": [1.0, 1.0],
+
+        "priors_on_camera_poses": true,
+        "camera_pose_orientation_noise_degree": [1e-6, 1e-6, 1e-6],
+        "camera_pose_position_noise": [1e-6, 1e-6, 1e-6],
+        
+        "priors_on_landmarks": true,
+        "landmark_position_noise": [1e-6, 1e-6, 1e-6],
+        
+        "prior_on_camera_calibration": true,
+        "camera_calibration_prior_noise": {
+            "fx": 5,
+            "fy": 5,
+            "cx": 2,
+            "cy": 2,
+            "k1": 0.05,
+            "k2": 0.05,
+            "p1": 1e-3,
+            "p2": 1e-3,
+            "skew": 1e-9
+        }
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "data_source": "dataset",
+    "save_plots": true,
+    "show_plots": false,
+    "export_results": true,
+    "visualize_projection": false,
+
+    "output_directory": "scar_extrinsics_only",
+    
+    "outlier_thresholds": [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+
+    "dataset": {
+        "data_directory": "data/",
+        "camera_calibration_file": "config/camera_matrix_guess_kalibr.json"
+    },
+
+    "video": {
+        "generate_video": false
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "output_prefix": "test",
+
+    "sequence": {
+        "sequence_id": "1706530629224000_1706530829024972_10_superpoint_lightglue_test"
+    },
+
+    "dataset": {
+        "campaign": "2024-01-29-12-31-01",
+        "image_directory": "data/2024-01-29-12-31-01/images"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "output_prefix": "test",
+
+    "sequence": {
+        "sequence_id": "1666184682334000_1666184882134914_10_superpoint_lightglue_test"
+    },
+
+    "dataset": {
+        "campaign": "2022-10-19-14-14-59",
+        "image_directory": "data/2022-10-19-14-14-59/images",
+        "extrinsics_calibration_file": "output/vins/extrinsic_parameter_2022-10-19-14-14-59.yaml"
+    }
+}

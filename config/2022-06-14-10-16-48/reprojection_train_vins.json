@@ -1,0 +1,13 @@
+{
+    "output_prefix": "train",
+
+    "sequence": {
+        "sequence_id": "1655196942844000_1655197142644984_10_superpoint_lightglue_train"
+    },
+
+    "dataset": {
+        "campaign": "2022-06-14-10-16-48",
+        "image_directory": "data/2022-06-14-10-16-48/images",
+        "extrinsics_calibration_file": "output/vins/extrinsic_parameter_2022-06-14-10-16-48.yaml"
+    }
+}

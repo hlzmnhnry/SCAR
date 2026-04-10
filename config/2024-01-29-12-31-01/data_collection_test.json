@@ -1,0 +1,13 @@
+{
+    "resume": false,
+    "resume_mode": "latest",
+
+    "manual_output_suffix": "test",
+
+    "dataset": {
+        "campaign": "2024-01-29-12-31-01",
+        "image_directory": "data/2024-01-29-12-31-01/images",
+        "start_time": 1706530629224000,
+        "end_time": 1706530829205000
+    }
+}

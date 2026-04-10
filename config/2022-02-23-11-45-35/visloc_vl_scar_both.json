@@ -1,0 +1,21 @@
+{
+    "output_prefix": "vl",
+
+    "sequence": {
+        "sequence_id": "1645614370400000_1645614570199934_10_roma_vl"
+    },
+
+    "dataset": {
+        "campaign": "2022-02-23-11-45-35",
+        "camera_calibration_file": {
+            "type": "load_latest_from_prefix",
+            "input_directory": "output/2022-02-23-11-45-35/optimization/basic",
+            "prefix": "ls"
+        },
+        "extrinsics_calibration_file": {
+            "type": "load_latest_from_prefix",
+            "input_directory": "output/2022-02-23-11-45-35/optimization/basic",
+            "prefix": "ls"
+        }
+    }
+}

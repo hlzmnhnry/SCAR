@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scar"
+version = "0.2.2"
+description = "Satellite-based Calibration for Aerial Recordings"
+authors = [{ name = "Henry Hölzemann", email = "henry.hoelzemann@fkie.fraunhofer.de" }]
+readme = "README.md"
+license = { file = "LICENSE" }
+dependencies = []
+requires-python = ">=3.11"
+
+[project.scripts]
+scar-collect = "scripts.collect_data:main"
+scar-pnp-vl = "scripts.evaluate_pnp_vl:main"
+scar-reprojection = "scripts.evaluate_reprojection:main"
+scar-sfm-optimization = "scripts.sfm_optimization:main"
+scar-ls = "scripts.extrinsics_from_ls:main"
+
+[tool.setuptools.packages.find]
+where = ["."]

@@ -1,0 +1,10 @@
+{
+    "sequence": {
+        "sequence_id": "1706528900764000_1706529100564969_10_superpoint_lightglue_train"
+    },
+
+    "dataset": {
+        "campaign": "2024-01-29-12-31-01",
+        "data_directory": "data/"
+    }
+}

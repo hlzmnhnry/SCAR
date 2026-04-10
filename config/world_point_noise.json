@@ -1,0 +1,9 @@
+{
+    "path_camera_parameters_guess": "/home/henry/scar/config/camera_matrix_guess_kalibr.json",
+    "path_extrinsic_parameters_guess": "config/extrinsics_guess_kalibr.json",
+    "data_directory": "data/",
+    "image_root": "/media/henry/4SI/4SEASONS/ALL_IMAGES",
+    "max_num_keypoints": 2048,
+    "pixels_per_meter": 5,
+    "outlier_threshold": 5
+}

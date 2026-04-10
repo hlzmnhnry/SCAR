@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+title: "SCAR: Satellite Imagery-Based Calibration for Aerial Recordings"
+message: "If you use this work, please cite the following paper."
+type: software
+
+authors:
+  - family-names: "Hölzemann"
+    given-names: "Henry"
+  - family-names: "Schleiss"
+    given-names: "Michael"
+
+preferred-citation:
+  type: article
+  title: "SCAR: Satellite Imagery-Based Calibration for Aerial Recordings"
+  authors:
+    - family-names: "Hölzemann"
+      given-names: "Henry"
+    - family-names: "Schleiss"
+      given-names: "Michael"
+  journal: "arXiv preprint arXiv:2602.16349"
+  year: 2026
+
+identifiers:
+  - type: doi
+    value: "10.48550/arXiv.2602.16349"
+
+repository-code: "https://github.com/hlzmnhnry/scar"
+url: "https://github.com/hlzmnhnry/scar"
+
+date-released: 2026-04-07
+version: "1.0.0"

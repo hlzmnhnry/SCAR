@@ -1,0 +1,14 @@
+{
+    "resume": false,
+    "resume_mode": "latest",
+
+    "manual_output_suffix": "vl",
+
+    "dataset": {
+        "campaign": "2022-02-23-11-45-35",
+        "data_directory": "data/",
+        "image_directory": "data/2022-02-23-11-45-35/images",
+        "start_time": 1645614370400000,
+        "end_time": 1645614570380000
+    }
+}

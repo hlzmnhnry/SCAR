@@ -1,0 +1,15 @@
+name: scar
+channels:
+  - defaults
+dependencies:
+  - python=3.11
+  - opencv
+  - pip
+  - pandas
+  - gdal
+  - pycolmap
+  - gtsam
+  - plotly::plotly
+  - ipykernel
+  - nbformat
+prefix: /home/henry/anaconda3/envs/scar

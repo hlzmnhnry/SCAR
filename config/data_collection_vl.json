@@ -1,0 +1,57 @@
+{
+    "path_camera_parameters_guess": "/home/henry/scar/config/camera_matrix_guess_kalibr.json",
+    "path_extrinsic_parameters_guess": "config/extrinsics_guess_kalibr.json",
+    "save_results_every_nth_iteration": 100,
+
+    "manual_output_suffix": "vl",
+
+    "dataset": {
+        "data_directory": "data/",
+        "pixels_per_meter": 5,
+        "update_to_real_ppm": true,
+        "footprint_type": "yaw_enclosing",
+        "footprint_square_size": 1000.0,
+        "image_step": 10
+    },
+
+    "tracking": {
+        "perform_tracking": false,
+        "maximum_features": 2048,
+        "minimum_pixel_distance": 5.0
+    },
+
+    "backmatching": {
+        "perform_backmatching": false
+    },
+
+    "visualization": {
+        "show_image_capture": false,
+        "show_orthophoto": false,
+        "show_dsm": false,
+        "show_matching": true,
+        "show_slope": false,
+        "show_overview": false,
+        "show_3d_map": false,
+        "scale_image_capture": 1.0,
+        "scale_orthophoto": 1.0,
+        "scale_dsm": 1.0,
+        "scale_matching": 1.0,
+        "scale_slope": 1.0,
+        "scale_overview": 1.0,
+        "scale_3d_map": 1.0
+    },
+
+    "image_matching": {
+        "collect_new_geofeatures_every_nth_image": 1,
+        "minimum_detections": 50,
+        "minimum_inliers": 20,
+        "matcher_type": "roma",
+        "matcher_kwargs": { "max_num_keypoints": 2048 },
+        "filter_aerial_satellite_matches": true,
+        "hom_magsac_reprojection_threshold": 3.0,
+        "hom_magsac_confidence": 0.95,
+        "hom_magsac_maximum_iterations": 2000,
+        "filter_by_slope": false,
+        "minimum_confidence": 0.3
+    }
+}

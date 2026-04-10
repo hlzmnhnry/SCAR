@@ -1,0 +1,13 @@
+{
+    "output_prefix": "train",
+
+    "sequence": {
+        "sequence_id": "1666183007634000_1666183207435392_10_superpoint_lightglue_train"
+    },
+
+    "dataset": {
+        "campaign": "2022-10-19-14-14-59",
+        "image_directory": "data/2022-10-19-14-14-59/images",
+        "camera_calibration_file": "output/colmap/2022-10-19-14-14-59_train_colmap_sfm_221004_cam1_2025-08-21_14-00-00.json"
+    }
+}

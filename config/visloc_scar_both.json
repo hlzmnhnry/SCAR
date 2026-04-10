@@ -1,0 +1,22 @@
+{
+    "save_plots": true,
+    "show_plots": false,
+    "export_results": true,
+    "output_directory": "scar_both",
+    
+    "sequence": {
+        "type": "realistic"
+    },
+
+    "dataset": {
+        "data_directory": "data/"
+    },
+
+    "perspective_n_point": {
+        "maximum_error": 4.0,
+        "confidence": 0.99,
+        "dyn_num_trials_multiplier": 3.0,
+        "require_minimum_points": 200,
+        "require_minimum_inliers": 50
+    }
+}

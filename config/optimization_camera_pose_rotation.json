@@ -1,0 +1,47 @@
+{
+    "data_source": "dataset",
+    "save_plots": true,
+    "show_plots": false,
+    "export_results": true,
+    "output_prefix": "camera_pose_rotation",
+    "output_directory": "basic",
+
+    "optimization": {
+
+        "kernel": "Huber",
+        "kernel_param": 5.0,
+        "reprojection_noise": [1.0, 1.0],
+
+        "priors_on_camera_poses": true,
+        "camera_pose_orientation_noise_degree": [0.5, 0.5, 0.5],
+        "camera_pose_position_noise": [1e-6, 1e-6, 1e-6],
+        
+        "priors_on_landmarks": true,
+        "landmark_position_noise": [1e-6, 1e-6, 1e-6],
+        
+        "prior_on_camera_calibration": true,
+        "camera_calibration_prior_noise": {
+            "fx": 1e-6,
+            "fy": 1e-6,
+            "cx": 1e-6,
+            "cy": 1e-6,
+            "k1": 1e-9,
+            "k2": 1e-9,
+            "p1": 1e-9,
+            "p2": 1e-9,
+            "skew": 1e-9
+        }
+    },
+
+    "sequence": {
+        "filtering": {
+            "minimum_features_per_frame": 10,
+            "minimum_point_observations": 5
+        }
+    },
+
+    "dataset": {
+        "camera_calibration_file": "config/camera_matrix_guess_kalibr.json",
+        "extrinsics_calibration_file": "config/extrinsics_guess_kalibr.json"
+    }
+}
