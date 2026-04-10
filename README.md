@@ -9,7 +9,8 @@
 This repository contains a tool for fine-tuning / optimizing a calibration of a visual-inertial sensor system in an aerial scenario based on satellite images. The tool is based on factor graphs for optimization and this repository contains code for the whole workflow: from data collection to optimization.
 
 ⚠️ As of now, the repository is published in an **initial version** and is currently refined. ⚠️
-⚠️ More will follow within the next days... ⚠️
+
+More will follow within the next days... 
 
 ## What it does
 
