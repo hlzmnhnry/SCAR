@@ -1,0 +1,50 @@
+# LTC campaign 2022-10-19 (training segment of the CVPRW 2026 evaluation) with the corrected
+# geodesy: float64 INS data, meridian convergence, INS heights converted to DHHN2016.
+# Data: camera.csv, ins.csv and images of the campaign (LTC dataset / SCAR data release) below
+# ../../data/2022-10-19-14-14-59; reference tiles are downloaded by georaffer.
+#   scar check examples/ltc_quickstart/config.yaml --render
+#   scar run examples/ltc_quickstart/config.yaml --viewer
+name: ltc_2022-10-19_train
+output: ../../runs/ltc_2022-10-19_train
+
+sequence:
+  camera: ../../paper/cvprw2026/calibration/kalibr_camera.json
+  extrinsics: ../../paper/cvprw2026/calibration/kalibr_extrinsics.json
+  images:
+    type: ltc
+    csv: ../../data/2022-10-19-14-14-59/camera.csv
+    root: ../../data/2022-10-19-14-14-59/images
+  poses:
+    type: ltc
+    csv: ../../data/2022-10-19-14-14-59/ins.csv
+    ltc_height: undulation
+  selection:
+    start: "1666183007.634"
+    end: "1666183207.616"
+    step: 10
+
+world:
+  crs: EPSG:25832
+  height: geoid
+  geoid_grid: ../../data/quasigeoid/de/linux/geotiff/GCG2016v2023.tif
+  height_name: DHHN2016
+  meridian_convergence: true
+
+reference:
+  regions: [nrw, rlp]
+  imagery_from: [2010, null]
+  tile_cache_dir: ~/georay/tiles
+  resolution: match_image
+  bbox_transform: yaw_enclosing
+  ranking_order: SEASON_YEAR_STATE
+  preferred_date: 2022-10-19
+  preferred_regions: [nrw]
+
+collect:
+  matcher: superpoint-lightglue
+  settings:
+    collect_every_nth_frame: 2
+    max_features: 500
+
+optimize:
+  preset: default

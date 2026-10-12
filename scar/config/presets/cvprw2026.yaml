@@ -1,0 +1,54 @@
+# Optimization as used for the CVPRW 2026 paper (tag v1.0.0-cvprw2026, config/optimization_*.json).
+# Keep unchanged: the regression tests reproduce the published results with this preset.
+name: cvprw2026
+description: >
+  Staged schedule rotations -> translations -> landmarks -> intrinsics -> joint refinement, then
+  least-squares recovery of the extrinsics. Priors are centered at the previous stage's estimates.
+  Pose sigmas act in camera axes, i.e. 'z' is the optical axis (near-nadir assumption).
+
+filtering:
+  min_point_observations: 5
+  min_frame_features: 10
+
+stages:
+  - name: camera_pose_rotation
+    kernel: {type: huber, param: 5.0}
+    reprojection_sigma_px: [1.0, 1.0]
+    pose_prior: {rotation_sigma_deg: [0.5, 0.5, 0.5], position_sigma_m: [1.0e-6, 1.0e-6, 1.0e-6]}
+    landmark_prior: {sigma_m: [1.0e-6, 1.0e-6, 1.0e-6]}
+    calibration_prior: &calibration_fixed
+      {fx: 1.0e-6, fy: 1.0e-6, skew: 1.0e-9, cx: 1.0e-6, cy: 1.0e-6, k1: 1.0e-9, k2: 1.0e-9, p1: 1.0e-9, p2: 1.0e-9}
+
+  - name: camera_pose_translation
+    kernel: {type: huber, param: 5.0}
+    reprojection_sigma_px: [1.0, 1.0]
+    pose_prior: {rotation_sigma_deg: [1.0e-6, 1.0e-6, 1.0e-6], position_sigma_m: [0.01, 0.01, 1.0e-6]}
+    landmark_prior: {sigma_m: [1.0e-6, 1.0e-6, 1.0e-6]}
+    calibration_prior: *calibration_fixed
+
+  - name: landmark
+    kernel: {type: huber, param: 3.0}
+    reprojection_sigma_px: [1.0, 1.0]
+    pose_prior: {rotation_sigma_deg: [1.0e-6, 1.0e-6, 1.0e-6], position_sigma_m: [1.0e-6, 1.0e-6, 1.0e-6]}
+    landmark_prior: {sigma_m: [0.2, 0.2, 1.0e-6]}
+    calibration_prior: *calibration_fixed
+
+  - name: calibration
+    kernel: {type: huber, param: 3.0}
+    reprojection_sigma_px: [1.0, 1.0]
+    pose_prior: {rotation_sigma_deg: [1.0e-6, 1.0e-6, 1.0e-6], position_sigma_m: [1.0e-6, 1.0e-6, 1.0e-6]}
+    landmark_prior: {sigma_m: [1.0e-6, 1.0e-6, 1.0e-6]}
+    calibration_prior: {fx: 5.0, fy: 5.0, skew: 1.0e-9, cx: 2.0, cy: 2.0, k1: 0.05, k2: 0.05, p1: 1.0e-3, p2: 1.0e-3}
+
+  - name: full
+    kernel: {type: huber, param: 3.0}
+    reprojection_sigma_px: [1.0, 1.0]
+    pose_prior: {rotation_sigma_deg: [0.05, 0.05, 0.05], position_sigma_m: [0.01, 0.01, 0.01]}
+    landmark_prior: {sigma_m: [0.1, 0.1, 0.1]}
+    calibration_prior: {fx: 0.2, fy: 0.2, skew: 1.0e-9, cx: 0.1, cy: 0.1, k1: 1.0e-3, k2: 1.0e-3, p1: 1.0e-5, p2: 1.0e-5}
+
+extrinsics:
+  method: least_squares
+  solver: {method: trf, loss: huber, jac: 3-point}
+  weight_translation: 1.0
+  weight_rotation: 1.0

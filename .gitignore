@@ -52,9 +52,11 @@ SCAR_ROBUSTNESS_rot_trans.svg
 scripts/debug/*.py
 
 # datasets
-data/2022-*/
-data/2024-*/
-data/tiles/
+data/
 
 # ignore codex
 .codex
+
+# pixi environments
+.pixi/
+runs/

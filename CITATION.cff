@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 title: "SCAR: Satellite Imagery-Based Calibration for Aerial Recordings"
-message: "If you use this work, please cite the following paper."
+message: "If you use this software, please cite the paper below."
 type: software
 
 authors:
@@ -10,22 +10,28 @@ authors:
     given-names: "Michael"
 
 preferred-citation:
-  type: article
+  type: conference-paper
   title: "SCAR: Satellite Imagery-Based Calibration for Aerial Recordings"
   authors:
     - family-names: "Hölzemann"
       given-names: "Henry"
     - family-names: "Schleiss"
       given-names: "Michael"
-  journal: "arXiv preprint arXiv:2602.16349"
+  collection-title: "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) Workshops"
+  conference:
+    name: "CVPR 2026 Workshops"
+  month: 6
   year: 2026
+  start: 987
+  end: 996
 
 identifiers:
   - type: doi
     value: "10.48550/arXiv.2602.16349"
+    description: "arXiv preprint"
 
 repository-code: "https://github.com/hlzmnhnry/scar"
-url: "https://github.com/hlzmnhnry/scar"
+url: "https://hlzmnhnry.github.io/publications/scar"
 
 date-released: 2026-04-07
 version: "1.0.0"

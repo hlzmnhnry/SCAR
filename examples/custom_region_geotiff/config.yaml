@@ -1,0 +1,49 @@
+# Offline demo: synthetic flight in UTM 17N with local reference rasters.
+#   python examples/custom_region_geotiff/make_demo_data.py examples/custom_region_geotiff/demo
+#   scar run examples/custom_region_geotiff/config.yaml
+name: custom_region_demo
+output: runs/demo
+
+sequence:
+  camera: demo/calibration/initial.yaml
+  extrinsics: demo/calibration/initial.yaml
+  images:
+    type: csv
+    csv: demo/images.csv
+    time_unit: s
+  poses:
+    type: csv
+    csv: demo/ins.csv
+    format:
+      time_unit: s
+      position: geodetic
+      crs: EPSG:4979
+      position_columns: [latitude, longitude, height]
+      height: ellipsoidal
+      orientation: quaternion
+      orientation_columns: [qx, qy, qz, qw]
+      navigation_frame: NED
+  selection:
+    step: 1
+
+world:
+  crs: EPSG:32617
+  height: ellipsoidal
+
+reference:
+  image_files: [demo/reference/orthophoto.tif]
+  dsm_files: [demo/reference/dsm.tif]
+  tile_cache_dir: runs/demo/tiles
+  resolution: fixed
+  pixels_per_meter: 2
+
+collect:
+  matcher: opencv-sift
+  settings:
+    collect_every_nth_frame: 1
+    max_features: 300
+    min_pixel_distance: 15.0
+    min_confidence: 0.0
+
+optimize:
+  preset: default

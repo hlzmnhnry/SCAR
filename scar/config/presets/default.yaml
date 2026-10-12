@@ -1,0 +1,9 @@
+# Default optimization of the generic pipeline. Identical to cvprw2026 for now: the P6 ablation
+# (paper/cvprw2026/ablation_geodesy.md) found the corrections in pose processing and anchor
+# collection to matter, not changes of the schedule; the joint preset is experimental.
+# Unlike cvprw2026, this preset may change in future versions.
+extends: cvprw2026
+name: default
+description: >
+  Staged schedule of the CVPRW 2026 paper (rotations, translations, landmarks, intrinsics, joint
+  refinement) followed by least-squares recovery of the extrinsics.

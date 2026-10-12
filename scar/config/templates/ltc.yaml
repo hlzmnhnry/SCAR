@@ -1,0 +1,46 @@
+# SCAR run configuration for an LTC campaign (https://hlzmnhnry.github.io/publications/ltc).
+# Reference data: official orthophotos and surface models of NRW/RLP via georaffer.
+name: ltc_2022-10-19_train
+output: runs/ltc_2022-10-19_train
+
+sequence:
+  camera: ltc/2022-10-19-14-14-59/calibration/camera.json
+  extrinsics: ltc/2022-10-19-14-14-59/calibration/extrinsics.json
+  images:
+    type: ltc
+    csv: ltc/2022-10-19-14-14-59/camera.csv
+    root: ltc/2022-10-19-14-14-59/images
+  poses:
+    type: ltc                           # ltc (float64, explicit datum) | ltc_legacy (as in CVPRW 2026)
+    csv: ltc/2022-10-19-14-14-59/ins.csv
+    ltc_height: undulation              # INS altitude + undulation = ellipsoidal height
+  selection:
+    start: "1666183007.634"
+    end: "1666183207.616"
+    step: 10
+
+world:
+  crs: EPSG:25832                       # ETRS89 / UTM 32N, like the German state data
+  height: geoid
+  geoid_grid: GCG2016v2023.tif          # BKG quasigeoid (DHHN2016 heights of the DSM)
+  height_name: DHHN2016
+  meridian_convergence: true
+
+reference:
+  regions: [nrw, rlp]
+  imagery_from: [2010, null]
+  tile_cache_dir: tiles
+  resolution: match_image
+  bbox_transform: yaw_enclosing
+  ranking_order: SEASON_YEAR_STATE
+  preferred_date: 2022-10-19
+  preferred_regions: [nrw]
+
+collect:
+  matcher: superpoint-lightglue
+  settings:
+    collect_every_nth_frame: 2
+    max_features: 500
+
+optimize:
+  preset: default

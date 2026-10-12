@@ -1,0 +1,20 @@
+# cvprw2026 schedule followed by a joint refinement with physically meaningful noise models:
+# body poses keep navigation priors (world axes), the extrinsics are a single graph variable
+# (C_t = B_t E), anchors keep their positional uncertainty and the intrinsics are only loosely
+# constrained. Reports marginal covariances of intrinsics and extrinsics.
+extends: cvprw2026
+name: joint
+description: >
+  cvprw2026 followed by a joint stage estimating intrinsics, extrinsics, body poses and anchors
+  together (extrinsics as graph variable instead of the least-squares recovery).
+
+stages:
+  - name: joint
+    joint_extrinsics: true
+    kernel: {type: huber, param: 3.0}
+    reprojection_sigma_px: [1.0, 1.0]
+    pose_prior: {rotation_sigma_deg: [0.1, 0.1, 0.2], position_sigma_m: [0.05, 0.05, 0.1], axes: world}
+    extrinsics_prior: {rotation_sigma_deg: [3.0, 3.0, 3.0], position_sigma_m: [0.05, 0.05, 0.05]}
+    landmark_prior: {sigma_m: [0.25, 0.25, 0.5], center: anchors}
+    calibration_prior: {fx: 20.0, fy: 20.0, skew: 1.0e-9, cx: 20.0, cy: 20.0, k1: 0.05, k2: 0.05, p1: 5.0e-3, p2: 5.0e-3}
+    compute_calibration_covariance: true

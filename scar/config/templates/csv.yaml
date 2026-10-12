@@ -1,0 +1,68 @@
+# SCAR run configuration: your own flight, anywhere.
+# Relative paths are relative to this file. Check with: scar check <this file> --render
+name: my_flight
+output: runs/my_flight
+
+sequence:
+  # initial calibration: SCAR calibration YAML, LTC camera.json/extrinsics.json or a Kalibr camchain
+  camera: calibration/camera.yaml
+  extrinsics: calibration/camera.yaml   # T_body_camera: camera -> body (INS) frame; Kalibr: T_cam_imu
+  images:
+    type: csv                           # csv | directory (files named by timestamp) | ltc
+    csv: images.csv                     # columns: timestamp, path (or use path_template)
+    timestamp_column: timestamp
+    path_column: path
+    time_unit: s                        # s | ms | us | ns
+  poses:
+    type: csv
+    csv: ins.csv
+    format:
+      timestamp_column: timestamp
+      time_unit: s
+      position: geodetic                # geodetic (lat, lon, height) | projected (x, y, height in world.crs)
+      crs: EPSG:4979                    # CRS of the positions (EPSG:4979 = WGS84 3D, EPSG:4937 = ETRS89 3D)
+      position_columns: [latitude, longitude, height]
+      height: ellipsoidal               # ellipsoidal | geoid (+ geoid_grid) | undulation (+ undulation_column) | world
+      orientation: quaternion           # quaternion (x, y, z, w) | euler (roll, pitch, yaw; + degrees)
+      orientation_columns: [qx, qy, qz, qw]
+      navigation_frame: NED             # the quaternion rotates body vectors into NED or ENU (true north)
+      # optional INS accuracies (north, east, down [m]; roll, pitch, yaw) -> pose covariances
+      # position_std_columns: [std_n, std_e, std_d]
+      # rotation_std_columns: [std_roll, std_pitch, std_yaw]
+    interpolation: linear               # linear | nearest
+    max_gap_s: 0.05                     # reject images without poses closer than this
+    time_offset_s: 0.0                  # pose time = image time + offset
+  selection:
+    start: null                         # seconds (same clock as the image timestamps)
+    end: null
+    step: 10                            # every n-th image, or: interval_s + tolerance_s
+  # mask: mask.png                      # non-zero pixels are ignored
+  # hot_pixels: hot_pixels.txt          # "x,y" per line
+
+world:
+  crs: EPSG:32617                       # projected CRS of the reference data (here UTM 17N)
+  height: ellipsoidal                   # vertical reference of the DSM: ellipsoidal | geoid (+ geoid_grid)
+  meridian_convergence: true            # rotate true-north orientations into grid axes
+
+reference:
+  image_files: [reference/orthophoto.tif]   # GeoTIFF/COG/VRT in any CRS (reprojected to world.crs)
+  dsm_files: [reference/dsm.tif]            # surface model, heights in world.height
+  tile_cache_dir: tiles
+  resolution: match_image               # match_image | fixed (+ pixels_per_meter)
+  bbox_transform: yaw_enclosing         # yaw_enclosing | north_aligned | direct
+
+collect:
+  matcher: superpoint-lightglue         # any image-matching-models matcher, or opencv-sift (CPU)
+  device: auto
+  settings:
+    collect_every_nth_frame: 2
+    max_features: 500
+    min_pixel_distance: 30.0
+
+optimize:
+  preset: default                       # default | cvprw2026 (paper, frozen) | joint (experimental) | file
+
+viewer:
+  enabled: false                        # or: scar run <config> --viewer
+  spawn: true
+  save: null                            # e.g. runs/my_flight/scar.rrd

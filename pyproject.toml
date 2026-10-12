@@ -1,23 +1,104 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=64", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "scar"
-version = "0.2.2"
+name = "scar-calib"
+version = "2.0.0"
 description = "Satellite-based Calibration for Aerial Recordings"
 authors = [{ name = "Henry Hölzemann", email = "henry.hoelzemann@fkie.fraunhofer.de" }]
 readme = "README.md"
 license = { file = "LICENSE" }
-dependencies = []
 requires-python = ">=3.11"
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "gtsam>=4.2",
+    "pyproj>=3.6",
+    "opencv-python>=4.8",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+legacy = ["utm==0.8.1"]
+references = ["georay>=0.1", "rasterio>=1.3"]
+germany = ["georay[germany]>=0.1"]
+matching = ["torch", "vismatch>=1.3"]
+viewer = ["rerun-sdk>=0.23"]
+dev = ["pytest>=7.0", "ruff>=0.6"]
 
 [project.scripts]
-scar-collect = "scripts.collect_data:main"
-scar-pnp-vl = "scripts.evaluate_pnp_vl:main"
-scar-reprojection = "scripts.evaluate_reprojection:main"
-scar-sfm-optimization = "scripts.sfm_optimization:main"
-scar-ls = "scripts.extrinsics_from_ls:main"
+scar = "scar.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
+include = ["scar*"]
+
+[tool.setuptools.package-data]
+scar = ["config/presets/*.yaml", "config/templates/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "regression: needs local legacy anchors and INS data (set SCAR_TEST_DATA)",
+]
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+[tool.pixi.dependencies]
+rasterio = ">=1.3"
+numpy = ">=1.24"
+scipy = ">=1.10"
+pyproj = ">=3.6"
+pyyaml = ">=6.0"
+
+[tool.pixi.feature.latest.dependencies]
+python = "3.12.*"
+gtsam = ">=4.3"
+
+# bit-exact reproduction of the CVPRW 2026 results (GTSAM version of the original environment)
+[tool.pixi.feature.repro.dependencies]
+python = "3.11.*"
+gtsam = { version = "==4.2.0", build = "py311hc9e34d7_12" }
+
+[tool.pixi.feature.dev.dependencies]
+pytest = ">=7.0"
+ruff = ">=0.6"
+
+[tool.pixi.pypi-dependencies]
+scar-calib = { path = ".", editable = true, extras = ["legacy"] }
+georay = ">=0.1"
+
+[tool.pixi.activation.env]
+# keep system-wide Python paths (e.g. ROS) out of the environment
+PYTHONPATH = ""
+
+# GPU matchers (torch + vismatch); several GB, install on demand: pixi install -e gpu
+[tool.pixi.feature.gpu.system-requirements]
+cuda = "12"
+
+[tool.pixi.feature.gpu.dependencies]
+pytorch-gpu = ">=2.4"
+torchvision = "*"
+setuptools = ">=83"
+rerun-sdk = ">=0.23"
+
+[tool.pixi.feature.gpu.pypi-dependencies]
+vismatch = ">=1.3"
+
+# German state tiles (NRW, RLP, ...) for the georay reference provider
+[tool.pixi.feature.germany.dependencies]
+libgdal-jp2openjpeg = "*"   # GDAL driver for the JP2 orthophotos of NRW and others
+
+[tool.pixi.feature.germany.pypi-dependencies]
+georaffer = ">=0.2"
+
+[tool.pixi.environments]
+default = ["latest", "dev"]
+repro = ["repro", "dev"]
+gpu = ["latest", "gpu", "germany", "dev"]
+
+[tool.pixi.tasks]
+test = "python -m pytest"

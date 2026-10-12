@@ -1,0 +1,61 @@
+# SCAR run configuration for an event camera: calibrate on reconstructed frames (e.g. E2VID).
+# Frames are files named by their timestamp (time the reconstruction refers to, e.g. the end of the
+# event window); poses come from an INS export with projected positions.
+name: event_camera
+output: runs/event_camera
+
+sequence:
+  camera: calibration/event_camera.json
+  extrinsics: calibration/event_extrinsics.json
+  images:
+    type: directory
+    directory: reconstructed_event_images   # e.g. 1700000000.070000.png
+    time_unit: s
+  poses:
+    type: csv
+    csv: ins.csv
+    format:
+      timestamp_column: timestamp
+      time_unit: s
+      position: projected
+      crs: EPSG:32632                   # CRS of the exported positions (here WGS84 / UTM 32N)
+      position_columns: [x, y, height]
+      height: world                     # heights already in the DSM's reference
+      orientation: quaternion
+      orientation_columns: [qx, qy, qz, qw]
+      navigation_frame: ENU
+    interpolation: linear
+  selection:
+    start: null                         # seconds, same clock as the frame timestamps
+    end: null
+    interval_s: 0.25                    # one frame every 0.25 s ...
+    tolerance_s: 0.03                   # ... if one exists within 30 ms
+  hot_pixels: hot_pixels/hot_pixels.txt
+  hot_pixel_radius: 1
+
+world:
+  crs: EPSG:25832
+  height: geoid
+  geoid_grid: GCG2016v2023.tif
+  height_name: DHHN2016
+  meridian_convergence: true            # the exported ENU orientations refer to true north
+
+reference:
+  regions: [nrw, rlp]
+  imagery_from: [2015, null]
+  tile_cache_dir: tiles
+  resolution: fixed
+  pixels_per_meter: 2
+  bbox_transform: yaw_enclosing
+  ranking_order: DATE_STATE_SEASON
+  preferred_date: 2024-06-01         # date of the flight
+  preferred_regions: [nrw]
+
+collect:
+  matcher: superpoint-lightglue
+  settings:
+    collect_every_nth_frame: 2
+    max_features: 500
+
+optimize:
+  preset: default
