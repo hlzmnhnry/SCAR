@@ -95,3 +95,17 @@ error and the share of frames within 2 m/2°, 5 m/5°, 10 m/10°:
 
 The magnitudes match the paper (rotation error reduced from about 2.4° to 0.3–0.6°, translation error
 essentially unchanged).
+
+## Anchor noise (successor of `scripts/estimate_world_point_noise.py`)
+
+`scar.evaluate.anchor_noise` re-estimates anchors from later, tracked observations: the frame is matched
+against its own reference again and the tracked pixel is transferred with a local affine fit to the
+inlier matches (works with any matcher), then lifted with the DSM as in the collection. Compared with
+the legacy script it uses the collection's filters and pixel convention, keeps outliers in robust
+statistics (MAD) instead of discarding them at 5 m, reports the anchor noise as std/sqrt(2) of the
+differences, and can re-match against other imagery years (`--imagery`) to include errors of the
+reference data. Synthetic check (`tests/synthetic/test_anchor_noise.py`): 0.08 m per axis on an exact
+scene with 0.5 m orthophoto pixels; anchors displaced by 1 m are measured as 1.0 m.
+
+    pixi run -e gpu python paper/cvprw2026/anchor_noise_ltc.py \
+        output/scar/2022-10-19-14-14-59/train_default/anchors.json --images data/2022-10-19-14-14-59/images

@@ -171,6 +171,31 @@ def cmd_evaluate(args) -> int:
     return 0
 
 
+def cmd_anchor_noise(args) -> int:
+    import numpy as np
+
+    from scar.config.schema import load_run_config
+    from scar.evaluate import AnchorNoiseConfig
+    from scar.io import load_sequence
+    from scar.pipeline import run_anchor_noise
+
+    config = load_run_config(args.config)
+    anchors = load_sequence(args.anchors) if args.anchors else None
+    summary = run_anchor_noise(config, anchors, AnchorNoiseConfig(every_nth_frame=args.every,
+        min_frame_gap=args.min_frame_gap)).summary()
+    if not summary["estimates"]:
+        print("no re-estimates (no tracked observations could be matched again)")
+        return 1
+    print(f"anchor noise {summary['estimates']} re-estimates of {summary['landmarks']} anchors in "
+          f"{summary['frames_matched']} frames ({summary['frames_skipped']} skipped)")
+    print(f"  difference to the anchors: bias {np.round(summary['bias_m'], 3).tolist()} m, "
+          f"robust std {np.round(summary['sigma_difference_m'], 3).tolist()} m, "
+          f"{100 * summary['outlier_fraction']:.1f} % beyond the outlier threshold")
+    print(f"  anchor noise (std / sqrt 2): {np.round(summary['sigma_anchor_m'], 3).tolist()} m (x, y, z)")
+    print(f"  -> {config.path(config.output) / 'anchor_noise.json'}")
+    return 0
+
+
 def cmd_export(args) -> int:
     from scar.io import export_calibration, load_camera, load_extrinsics
 
@@ -212,6 +237,15 @@ def main(argv: list[str] | None = None) -> int:
         "per-frame anchors, e.g. collected with tracking disabled")
     evaluate.add_argument("--offsets", action="store_true", help="estimate translation/time/rotation offsets")
     evaluate.set_defaults(func=cmd_evaluate)
+
+    noise = commands.add_parser("anchor-noise", help="estimate the noise of collected anchors by re-matching "
+        "tracked observations")
+    noise.add_argument("config", help="run configuration the anchors were collected with")
+    noise.add_argument("--anchors", default=None, help="anchors.json (default: the run's anchors)")
+    noise.add_argument("--every", type=int, default=1, help="re-match every n-th frame")
+    noise.add_argument("--min-frame-gap", type=int, default=1, help="only observations at least this many frames "
+        "after the anchor was collected")
+    noise.set_defaults(func=cmd_anchor_noise)
 
     export = commands.add_parser("export", help="write a calibration for other tools")
     export.add_argument("calibration", help="calibration.yaml of a run")

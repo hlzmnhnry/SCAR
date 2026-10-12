@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "scar-calib"
-version = "2.0.0"
+version = "2.1.0"
 description = "Satellite-based Calibration for Aerial Recordings"
 authors = [{ name = "Henry Hölzemann", email = "henry.hoelzemann@fkie.fraunhofer.de" }]
 readme = "README.md"

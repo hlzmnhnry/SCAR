@@ -5857,8 +5857,8 @@ packages:
   requires_python: '>=3.10'
 - pypi: ./
   name: scar-calib
-  version: 2.0.0
-  sha256: 8604fbc47edcc992fe458138c668b5f42d0abc8a6f42c5b60e26bf516b74acf7
+  version: 2.1.0
+  sha256: b74ac65750489c7032ccd6ea936162ae1fab36f2524cff3378932d8d4f1e3511
   requires_dist:
   - numpy>=1.24
   - scipy>=1.10

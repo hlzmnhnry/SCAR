@@ -138,13 +138,20 @@ def reference_provider(config: RunConfig, world: WorldFrame):
     return GeorayReferenceProvider(world, reference)
 
 
+def make_matcher(config: RunConfig):
+    """The matcher of ``collect.matcher``."""
+    from scar.collect import ImageMatchingModelsMatcher, OpenCVSiftMatcher
+
+    collect = config.collect
+    if collect.matcher == "opencv-sift":
+        return OpenCVSiftMatcher()
+    return ImageMatchingModelsMatcher(collect.matcher, device=collect.device)
+
+
 def run_collect(config: RunConfig, resume: bool = False, on_frame: Callable | None = None,
     prepared: PreparedSequence | None = None) -> Sequence:
-    from scar.collect import (
-        AnchorCollector,
-        ImageMatchingModelsMatcher,
-        OpenCVSiftMatcher,
-    )
+    from scar.collect import AnchorCollector
+
     prepared = prepared or prepare_sequence(config)
     sequence = prepared.sequence
     output = config.path(config.output)
@@ -152,14 +159,27 @@ def run_collect(config: RunConfig, resume: bool = False, on_frame: Callable | No
     references = reference_provider(config, sequence.world_frame)
 
     collect = config.collect
-    matcher = OpenCVSiftMatcher() if collect.matcher == "opencv-sift" else \
-        ImageMatchingModelsMatcher(collect.matcher, device=collect.device)
-    collector = AnchorCollector(collect.settings, matcher, references, prepared.read_image, on_frame=on_frame,
+    collector = AnchorCollector(collect.settings, make_matcher(config), references, prepared.read_image,
+        on_frame=on_frame,
         image_mask=image_mask(config, sequence.camera.width, sequence.camera.height))
 
     log.info("collecting anchors for %d frames", len(sequence.frames))
     result = collector.collect(sequence, checkpoint_directory=output / "collect", resume=resume)
     save_sequence(result, output / ANCHORS_FILE)
+    return result
+
+
+def run_anchor_noise(config: RunConfig, anchors: Sequence | None = None, noise_config=None):
+    """Re-estimate the anchors of a run from later observations; writes ``anchor_noise.json``."""
+    from scar.evaluate import estimate_anchor_noise
+
+    output = config.path(config.output)
+    anchors = anchors or load_sequence(output / ANCHORS_FILE)
+    prepared = prepare_sequence(config)
+    references = reference_provider(config, anchors.world_frame)
+    result = estimate_anchor_noise(anchors, make_matcher(config), references, prepared.read_image,
+        config.collect.settings, noise_config)
+    result.save(output / "anchor_noise.json")
     return result
 
 

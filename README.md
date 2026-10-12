@@ -56,8 +56,33 @@ scar export runs/my_flight/calibration/calibration.yaml --format kalibr --output
 ```
 
 `scar collect` and `scar optimize` run the two steps separately; `scar evaluate` scores a calibration on
-anchors of an independent test sequence (reprojection error, optionally visual localization). See
-[`examples/`](examples) for an LTC campaign; `scar init --template event` starts an event camera setup.
+anchors of an independent test sequence (reprojection error, optionally visual localization), and
+`scar anchor-noise` estimates how precise the collected anchors are by matching tracked observations
+against the reference data again. See [`examples/`](examples) for an LTC campaign;
+`scar init --template event` starts an event camera setup.
+
+## Data
+
+- **LTC dataset** ([Leaving the City](https://hlzmnhnry.github.io/publications/ltc), ECCV 2026): the full
+  aerial recordings with INS data and calibrations, licensed under CC BY 4.0. SCAR reads the campaign
+  folders directly (`scar init my_ltc.yaml --template ltc`). Images are distributed in archives
+  (`<campaign>_images/<index>.png`); `meta/image_shards.csv` lists which frames each archive contains.
+- **SCAR evaluation data**: the subset used in the paper (per campaign every 10th image of the training and
+  test segments, `camera.csv`, `ins.csv`) is available
+  [here](https://owncloud.fraunhofer.de/index.php/s/Cf7U6xfx5YHMRSs). Put a campaign folder at
+  `data/<campaign>/` and run, e.g. for 2022-10-19:
+
+  ```bash
+  pixi install -e gpu
+  pixi run -e gpu scar run examples/ltc_quickstart/config.yaml
+  ```
+
+  The configuration needs the GCG2016 quasigeoid (see [examples/README.md](examples/README.md)); reference
+  tiles are downloaded automatically. For the other campaigns copy the configuration and set the campaign
+  and the time window from [`paper/cvprw2026/campaigns.yaml`](paper/cvprw2026/campaigns.yaml).
+
+If you use LTC data, please also cite the
+[LTC paper](https://hlzmnhnry.github.io/publications/ltc).
 
 ## Inputs
 
@@ -95,7 +120,8 @@ and, with `--viewer`, a rerun recording. `scar export` writes Kalibr, OpenCV and
 of the CVPRW 2026 evaluation, the reproduction log and an ablation of geodetic corrections that were not
 part of the paper version (float32 coordinates, meridian convergence, heights, interpolation).
 The meridian convergence correction alone lowers the test reprojection error by 21 % on average over the
-six LTC campaigns.
+six LTC campaigns. `anchor_noise_ltc.py` estimates the anchor noise of an LTC sequence, the empirical
+counterpart of the landmark prior.
 
 ## Development
 

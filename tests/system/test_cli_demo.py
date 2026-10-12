@@ -1,6 +1,7 @@
 """The whole pipeline through the CLI on the synthetic custom-region demo (offline, CPU)."""
 
 import importlib.util
+import json
 import shutil
 from pathlib import Path
 
@@ -51,6 +52,13 @@ def test_check_run_and_export(demo, capsys):
     assert main(["evaluate", str(directory / "runs" / "demo" / "anchors.json"), "--calibration", str(calibration),
         "--offsets"]) == 0
     assert "reprojection" in capsys.readouterr().out
+
+    assert main(["anchor-noise", str(config), "--every", "2"]) == 0
+    assert "anchor noise" in capsys.readouterr().out
+    noise = json.loads((directory / "runs" / "demo" / "anchor_noise.json").read_text())["summary"]
+    assert noise["estimates"] > 50
+    # exactly rendered demo with 0.5 m orthophoto pixels: re-estimates agree to a fraction of a pixel
+    assert np.all(np.asarray(noise["sigma_anchor_m"][:2]) < 0.3)
 
     kalibr = directory / "camchain.yaml"
     assert main(["export", str(calibration), "--format", "kalibr", "--output", str(kalibr)]) == 0

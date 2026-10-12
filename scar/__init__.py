@@ -7,4 +7,4 @@ Typical use goes through a run configuration (``scar init``/``scar run``); the l
 - :mod:`scar.collect` anchor collection, :mod:`scar.optimize` calibration, :mod:`scar.evaluate` metrics.
 """
 
-__version__ = "2.0.0"
+__version__ = "2.1.0"
